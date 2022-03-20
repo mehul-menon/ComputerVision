@@ -3,9 +3,9 @@ import mediapipe as mp
 import time
 
 class FaceDetector():
-    def __init__(self, detectCon=0.5, model_sel=0):
-        self.detectCon = detectCon
-        self.model_sel = model_sel
+    def __init__(self, detectCon=0.5, model_sel=0): #defining init file
+        self.detectCon = detectCon # detection confidence
+        self.model_sel = model_sel 
         self.mpFaceDetection = mp.solutions.face_detection
         self.mpDraw = mp.solutions.drawing_utils
         self.faceDetection = self.mpFaceDetection.FaceDetection(0.35)
@@ -23,7 +23,7 @@ class FaceDetector():
                  bboxC = detection.location_data.relative_bounding_box
                  ih, iw, ic = img.shape
                  bbox = int(bboxC.xmin*iw), int(bboxC.ymin*ih), \
-                     int(bboxC.width * iw), int(bboxC.height * ih)
+                     int(bboxC.width * iw), int(bboxC.height * ih) #bbox returns size of bounding box as ratio with respect to image
                  bboxs.append([id,bbox,detection.score])
              if draw:
                  cv2.rectangle(img,bbox,(255,0,255),2)
@@ -35,10 +35,10 @@ def main():
     detector = FaceDetector()
     while True:
         success, img1 = cap.read()
-        img = cv2.resize(img1, (640, 360), fx=0, fy=0, interpolation=cv2.INTER_CUBIC)
+        img = cv2.resize(img1, (640, 360), fx=0, fy=0, interpolation=cv2.INTER_CUBIC) 
         img, bboxs = detector.findFace(img)
         cTime = time.time()
-        fps = 1 / (cTime - pTime)
+        fps = 1 / (cTime - pTime)# fps
         pTime = cTime
         cv2.putText(img, str(int(fps)), (20, 70), cv2.FONT_HERSHEY_PLAIN, 3, (0, 225, 0), 2)
         cv2.imshow("frame", img)
